@@ -1,11 +1,11 @@
 <script setup lang='ts'>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { NLayout, NLayoutContent } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import Sider from '../chat/layout/sider/index.vue'
 import Permission from '../chat/layout/Permission.vue'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { homeStore, useAppStore, useAuthStore, useChatStore } from '@/store'
+import { gptServerStore, homeStore, useAppStore, useAuthStore, useChatStore } from '@/store'
 import { aiFooter } from '@/views/mj'
 import aiMobileMenu from '@/views/mj/aiMobileMenu.vue'
 
@@ -34,6 +34,27 @@ const getContainerClass = computed(() => {
     { abc: !isMobile.value && !collapsed.value },
   ]
 })
+
+onMounted(() => {
+  // 添加监听器接收消息
+  window.addEventListener('message', handleMessage)
+})
+
+onBeforeUnmount(() => {
+  // 组件销毁时移除监听器
+  window.removeEventListener('message', handleMessage)
+})
+
+function handleMessage(event) {
+  if (event.origin !== 'http://localhost:3001')
+    return
+
+  if (event?.data?.authCode) {
+    gptServerStore.setMyData({ MJ_API_SECRET: event.data.authCode })
+    localStorage.setItem('authCode', event.data.authCode)
+    window.removeEventListener('message', handleMessage)
+  }
+}
 </script>
 
 <template>
