@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { computed, onBeforeUnmount, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { NLayout, NLayoutContent } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import Sider from '../chat/layout/sider/index.vue'
@@ -34,27 +34,20 @@ const getContainerClass = computed(() => {
     { abc: !isMobile.value && !collapsed.value },
   ]
 })
+const authcode = ref<string | null>(null)
 
 onMounted(() => {
-  // 添加监听器接收消息
-  window.addEventListener('message', handleMessage)
-})
+  // 获取 URL 参数 authcode
+  const hash = window.location.hash
+  const urlParams = new URLSearchParams(hash.split('?')[1]) // 分割掉 '#/draw/login?' 之后的参数部分
 
-onBeforeUnmount(() => {
-  // 组件销毁时移除监听器
-  window.removeEventListener('message', handleMessage)
-})
-
-function handleMessage(event) {
-  if (event.origin !== 'http://localhost:3001')
-    return
-
-  if (event?.data?.authCode) {
-    gptServerStore.setMyData({ MJ_API_SECRET: event.data.authCode })
-    localStorage.setItem('authCode', event.data.authCode)
-    window.removeEventListener('message', handleMessage)
+  // 获取 authcode 参数
+  authcode.value = urlParams.get('authcode')
+  if (authcode.value) {
+    gptServerStore.setMyData({ MJ_API_SECRET: authcode.value })
+    localStorage.setItem('authCode', authcode.value)
   }
-}
+})
 </script>
 
 <template>
