@@ -167,7 +167,7 @@ export default {
     ,img2textinfo:'不知如何写提示词？用图生文试试！<br/>提交图片，出提示词'
     ,traning:'翻译中...'
     ,imgcreate:'生成图片'
-    ,imginfo:'其他参数：  <li>1 --no 忽略 --no car 图中不出现车 </li><li>2 --seed 可先获取种子 --seed 123456 </li> <li>3 --chaos 10 混合(范围：0-100)</li> <li>4 --tile 碎片化 </li>  <li>5 --cw 0 只参考五官, 100 参考五官、头发、服装等  </li>'
+    ,imginfo:'价格说明: <li> 1. 慢速 0.06 积分一次，快速 0.15 积分一次，超速 0.4 积分一次 </li> <li> 2. 生成图片之外的操作，按照快速计费 </li> <br /> 其他参数： <li>1 --no 忽略 --no car 图中不出现车 </li> <li>2 --seed 可先获取种子 --seed 123456 </li>  <li>3 --chaos 10 混合(范围：0-100)</li>  <li>4 --tile 碎片化 </li>   <li>5 --cw 0 只参考五官, 100 参考五官、头发、服装等  </li> '
     ,tStyle:'风格'
     ,tView:'视角'
     ,tShot:'人物镜头'
