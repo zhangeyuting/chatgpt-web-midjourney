@@ -46,6 +46,7 @@ onMounted(() => {
   if (authcode.value) {
     gptServerStore.setMyData({ MJ_API_SECRET: authcode.value })
     localStorage.setItem('authCode', authcode.value)
+    router.replace({ name: 'draw', params: { uuid: chatStore.active } })
   }
 })
 </script>
